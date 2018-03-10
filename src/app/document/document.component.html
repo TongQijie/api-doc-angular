@@ -1,0 +1,52 @@
+<div style="position:absolute;top:0px;left:0px;bottom:0px;width:250px;background-color:#fafafa;border-right:1px solid #e8e8e8;overflow:auto;">
+    <tree [tree]="catalog" [settings]="treeSettings" (nodeSelected)="clickCatalogItem($event)"></tree>
+</div>
+
+<div style="position:absolute;left:250px;top:0px;bottom:0px;right:0px;overflow:auto;">
+    <div class="container-fluid" *ngIf="info != null">
+        <div class="row">
+            <h5 style="margin:10px;">{{info?.name}}</h5>
+        </div>
+        <div class="row">
+            <div class="col">{{info?.description}}</div>
+        </div>
+        <div class="row">
+            <h5 style="margin:10px;">Request</h5>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let h of info?.requestTableHeader" scope="col">{{h}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let r of info?.requestTableBody">
+                            <td *ngFor="let d of r">{{d}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <h5 style="margin:10px;">Response</h5>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let h of info?.responseTableHeader" scope="col">{{h}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let r of info?.responseTableBody">
+                            <td *ngFor="let d of r">{{d}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
