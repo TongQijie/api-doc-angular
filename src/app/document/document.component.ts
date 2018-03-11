@@ -19,10 +19,10 @@ export class DocumentComponent implements OnInit {
   constructor(private route: ActivatedRoute, private service: DocumentService) { }
 
   ngOnInit() {
-    let organization = this.route.snapshot.paramMap.get('organization');
-    let project = this.route.snapshot.paramMap.get('project');
+    this.organization = this.route.snapshot.paramMap.get('organization');
+    this.project = this.route.snapshot.paramMap.get('project');
 
-    this.service.getProjectCatalog(organization, project).subscribe(
+    this.service.getProjectCatalog(this.organization, this.project).subscribe(
       data => {
         let model: TreeModel = {
           value: data.name,
@@ -55,19 +55,39 @@ export class DocumentComponent implements OnInit {
     rootIsVisible: false
   };
 
+  public organization: string
+
+  public project: string
+
   public catalog: TreeModel
 
   public info: ApiInfo
 
+  public editable: boolean
+
   public clickCatalogItem(e: NodeEvent): void {
     if (e.node.node.id == null) {
-      return;
+      this.info = null
+      return
     }
     this.service.getApiInfo(e.node.node.id.toString()).subscribe(
       data => {
         this.info = data
+        this.editable = false
       }, error => {
         console.log(error)
       });
+  }
+
+  public clickToEdit(): void {
+    this.editable = true
+  }
+
+  public clickToSave(): void {
+    
+  }
+
+  public clickToReview(): void {
+    this.editable = false
   }
 }

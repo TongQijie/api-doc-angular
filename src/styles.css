@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+ul.tree.rootless>li>tree-internal>ul.tree {
+    padding-left: 0px;
+}
+ul.tree.rootless {
+    margin-top: 10px;
+}
+tree-internal .tree div.node-value:after {
+    background-color: #dc3545
+}
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+li {
+    list-style: none;
+}

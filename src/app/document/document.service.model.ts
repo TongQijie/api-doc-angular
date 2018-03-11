@@ -14,4 +14,12 @@ export class ApiInfo {
     public requestTableBody: string[][]
     public responseTableHeader: string[]
     public responseTableBody: string[][]
+    public requestBodyRows: Row[]
+}
+export class Row {
+    public columns: Column[]
+}
+export class Column {
+    public field: string
+    public value: string
 }

@@ -1,17 +1,27 @@
 <div style="position:absolute;top:0px;left:0px;bottom:0px;width:250px;background-color:#fafafa;border-right:1px solid #e8e8e8;overflow:auto;">
-    <tree [tree]="catalog" [settings]="treeSettings" (nodeSelected)="clickCatalogItem($event)"></tree>
+    <div style="position:absolute;left:0px;top:0px;right:0px;height:50px;border-bottom:1px solid rgba(0, 0, 0, .07);line-height:50px;padding:0px 15px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:bold;">
+        {{project}}
+    </div>
+    <tree [tree]="catalog" [settings]="treeSettings" (nodeSelected)="clickCatalogItem($event)" style="position:absolute;left:0px;top:50px;right:0px;bottom:0px;font-size:14px;"></tree>
 </div>
 
-<div style="position:absolute;left:250px;top:0px;bottom:0px;right:0px;overflow:auto;">
-    <div class="container-fluid" *ngIf="info != null">
-        <div class="row">
-            <h5 style="margin:10px;">{{info?.name}}</h5>
+<div style="position:absolute;left:250px;top:0px;bottom:0px;right:0px;overflow:auto;" *ngIf="!editable && info != null">
+    <div style="position:absolute;left:0px;top:0px;right:0px;height:50px;line-height:50px;padding:0px 16px;border-bottom:1px solid #e5e5e5;">
+        <span style="font-size:20px;">{{info?.name}}</span>
+        <div style="float:right;">
+            <ul style="font-size:12px;">
+                <li style="float:left;margin-left:16px;">
+                    <span style="cursor: pointer;" (click)="clickToEdit()">编辑接口</span>
+                </li>
+            </ul>
         </div>
+    </div>
+    <div style="position:absolute;left:0px;top:50px;right:0px;bottom:0px;" class="container-fluid">
         <div class="row">
             <div class="col">{{info?.description}}</div>
         </div>
         <div class="row">
-            <h5 style="margin:10px;">Request</h5>
+            <h5 style="margin:16px;">请求参数</h5>
         </div>
         <div class="row">
             <div class="col">
@@ -30,7 +40,7 @@
             </div>
         </div>
         <div class="row">
-            <h5 style="margin:10px;">Response</h5>
+            <h5 style="margin:16px;">响应参数</h5>
         </div>
         <div class="row">
             <div class="col">
@@ -46,6 +56,83 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="position:absolute;left:250px;top:0px;bottom:0px;right:0px;overflow:auto;" *ngIf="editable && info != null">
+    <div style="position:absolute;left:0px;top:0px;right:0px;height:50px;line-height:50px;padding:0px 16px;border-bottom:1px solid #e5e5e5;">
+        <span style="font-size:20px;">{{info?.name}}</span>
+        <div style="float:right;">
+            <ul style="font-size:12px;">
+                <li style="float:left;margin-left:16px;">
+                    <span style="cursor: pointer;" (click)="clickToReview()">放弃编辑</span>
+                </li>
+                <li style="float:left;margin-left:16px;">
+                    <span style="cursor: pointer;" (click)="clickToSave()">保存编辑</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div style="position:absolute;left:0px;top:50px;right:0px;bottom:0px;" class="container-fluid">
+        <div class="row">
+            <div class="col">{{info?.description}}</div>
+        </div>
+        <div class="row">
+            <h5 style="margin:16px;">请求参数</h5>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p-table [value]="info?.requestBodyRows">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngFor="let h of info?.requestTableHeader">{{h}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-row>
+                        <tr>
+                            <td *ngFor="let col of row.columns" pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input style="padding:.25em .5em;outline:none;border:none;" type="text" [(ngModel)]="col.value">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{col.value}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+        <div class="row">
+            <h5 style="margin:16px;">响应参数</h5>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p-table [value]="info?.responseBodyRows">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngFor="let h of info?.responseTableHeader">{{h}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-row>
+                        <tr>
+                            <td *ngFor="let col of row.columns" pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input style="padding:.25em .5em;outline:none;border:none;" type="text" [(ngModel)]="col.value">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{col.value}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
             </div>
         </div>
     </div>
