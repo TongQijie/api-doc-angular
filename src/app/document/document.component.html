@@ -39,7 +39,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <p-table [value]="info?.requestTableBody">
+                <p-table [value]="info?.requestTableBody" [customSort]="true">
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngFor="let cell of info?.requestTableHeader">{{cell}}</th>
@@ -58,7 +58,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <p-table [value]="info?.responseTableBody">
+                <p-table [value]="info?.responseTableBody" [customSort]="true">
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngFor="let cell of info?.responseTableHeader">{{cell}}</th>
