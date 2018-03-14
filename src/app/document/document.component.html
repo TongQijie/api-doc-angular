@@ -2,7 +2,21 @@
     <div style="position:absolute;left:0px;top:0px;right:0px;height:50px;border-bottom:1px solid rgba(0, 0, 0, .07);line-height:50px;padding:0px 15px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:bold;">
         {{project}}
     </div>
-    <tree [tree]="catalog" [settings]="treeSettings" (nodeSelected)="clickCatalogItem($event)" style="position:absolute;left:0px;top:50px;right:0px;bottom:0px;font-size:14px;"></tree>
+    <!-- <tree [tree]="catalog" [settings]="treeSettings" (nodeSelected)="clickCatalogItem($event)" style="position:absolute;left:0px;top:50px;right:0px;bottom:0px;font-size:14px;"></tree> -->
+    <div style="position:absolute;left:0px;top:50px;right:0px;bottom:0px;font-size:14px;">
+        <style>
+            .ui-tree {
+                width: 100%;
+            }
+            .ui-widget-content {
+                background-color: transparent;
+                border: none;
+                height: 100%;
+            }
+        </style>
+        <p-tree [value]="catalog" selectionMode="single" (onNodeSelect)="clickCatalogItem($event)" [(selection)]="selectedCatalogItem"
+            [styleClass]="borderless"></p-tree>
+    </div>
 </div>
 
 <div style="position:absolute;left:250px;top:0px;bottom:0px;right:0px;overflow:auto;" *ngIf="!editable && info != null">
@@ -11,13 +25,13 @@
         <div style="float:right;">
             <ul style="font-size:12px;">
                 <li style="float:left;margin-left:16px;">
-                    <span style="cursor: pointer;" (click)="clickToEdit()">编辑接口</span>
+                    <span style="cursor:pointer;" (click)="clickToEdit()">编辑接口</span>
                 </li>
             </ul>
         </div>
     </div>
     <div style="position:absolute;left:0px;top:50px;right:0px;bottom:0px;" class="container-fluid">
-        <div class="row">
+        <div class="row" *ngIf="info?.description != null">
             <div class="col">{{info?.description}}</div>
         </div>
         <div class="row">
@@ -25,18 +39,18 @@
         </div>
         <div class="row">
             <div class="col">
-                <table class="table table-bordered table-hover">
-                    <thead>
+                <p-table [value]="info?.requestTableBody">
+                    <ng-template pTemplate="header">
                         <tr>
-                            <th *ngFor="let h of info?.requestTableHeader" scope="col">{{h}}</th>
+                            <th *ngFor="let cell of info?.requestTableHeader">{{cell}}</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let r of info?.requestTableBody">
-                            <td *ngFor="let d of r">{{d}}</td>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-row>
+                        <tr>
+                            <td *ngFor="let cell of row">{{cell}}</td>
                         </tr>
-                    </tbody>
-                </table>
+                    </ng-template>
+                </p-table>
             </div>
         </div>
         <div class="row">
@@ -44,18 +58,18 @@
         </div>
         <div class="row">
             <div class="col">
-                <table class="table table-bordered table-hover">
-                    <thead>
+                <p-table [value]="info?.responseTableBody">
+                    <ng-template pTemplate="header">
                         <tr>
-                            <th *ngFor="let h of info?.responseTableHeader" scope="col">{{h}}</th>
+                            <th *ngFor="let cell of info?.responseTableHeader">{{cell}}</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let r of info?.responseTableBody">
-                            <td *ngFor="let d of r">{{d}}</td>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-row>
+                        <tr>
+                            <td *ngFor="let cell of row">{{cell}}</td>
                         </tr>
-                    </tbody>
-                </table>
+                    </ng-template>
+                </p-table>
             </div>
         </div>
     </div>

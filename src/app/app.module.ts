@@ -7,8 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DocumentComponent } from './document/document.component';
 
-import { TreeModule } from 'ng2-tree';
+//import { TreeModule } from 'ng2-tree';
 import { TableModule } from 'primeng/table';
+import { TreeModule } from 'primeng/tree'; 
 
 const appRoutes: Routes = [
   { path: ':organization/:project/doc', component: DocumentComponent },
